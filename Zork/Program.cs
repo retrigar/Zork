@@ -5,8 +5,8 @@ namespace Zork
 {
     class Program
     {
-       
-        private static string CurrentRoom
+
+        private static Room CurrentRoom
         {
             get
             {
@@ -17,6 +17,7 @@ namespace Zork
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Zork!");
+            InitializeRoomDescriptions();
 
             Commands command = Commands.UNKNOWN;
             while (command != Commands.QUIT)
@@ -29,7 +30,7 @@ namespace Zork
                 switch (command)
                 {
                     case Commands.LOOK:
-                        Console.WriteLine("A rubber mat saying 'Welcome to Zork!' lies by the door.");
+                        Console.WriteLine(CurrentRoom.Description);
                         break;
 
                     case Commands.NORTH:
@@ -82,10 +83,10 @@ namespace Zork
 
         private static bool IsDirection(Commands command) => Directions.Contains(command);
 
-        private static readonly string[,] Rooms = {
-            {"Rocky Trail", "South of House", "Canyon View" },
-            {"Forest", "West of House", "Behind House" },
-            {"Dense Woods", "North of House", "Clearing" }
+        private static readonly Room[,] Rooms = {
+            {new Room("Rocky Trail"), new Room("South of House"), new Room("Canyon View") },
+            {new Room("Forest"), new Room("West of House"), new Room("Behind House") },
+            {new Room("Dense Woods"), new Room( "North of House"), new Room("Clearing") }
         };
 
         private static readonly List<Commands> Directions = new List<Commands>
@@ -93,10 +94,26 @@ namespace Zork
             Commands.NORTH,
             Commands.SOUTH,
             Commands.EAST,
-            Commands.WEST
+            Commands.WEST,
+            Commands.LOOK,
         };
 
         private static (int Row, int Column) Location = (1,1);
-        
+
+        private static void InitializeRoomDescriptions()
+        {
+            Rooms[0, 0].Description = "You are on a rock-strewn trail."; // rocky trail
+            Rooms[0, 1].Description = "You are facing the south side of a white house. There is no door here, and all the windows are barred."; // south of house
+            Rooms[0, 2].Description = "You are at the top of the Great Canyon on its south wall."; // canyon view
+
+            Rooms[1, 0].Description = "This is a forest, with trees in all directions around you."; // forest
+            Rooms[1, 1].Description = "This is an open field west of a white house, with a boarded front door."; // west of house
+            Rooms[1, 2].Description = "You are behind the white house. In one corner of the house there is a small window which is slightly ajar"; // behind house
+
+            Rooms[2, 0].Description = "This is a dimly lit forest, with large trees all around. To the east, there appears to be sunlight."; // dense woods
+            Rooms[2, 1].Description = "You are facing the north side of a white house. There is no door here and all the windows are barred."; // North of house
+            Rooms[2, 2].Description = "You are in a clearing, with a forest surroundung you on the west and south."; // clearing
+        }
+
     }
 }
