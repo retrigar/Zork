@@ -13,8 +13,8 @@ string[] responses = new string[]
 var command = new Command("HELLO", new string[] { "HELLO", "HI", "HOWDY" },
     (game, commandContext) =>
     {
-        string selectedResponse = responses[game.Random.Next(responses.Length)];
+        string selectedResponse = responses[Game.Random.Next(responses.Length)];
         Console.WriteLine(selectedResponse);
     });
 
-Game.Instance.CommandManager.AddCommand(command);
+    Game.Instance.CommandManager.AddCommand(command);
